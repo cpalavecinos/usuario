@@ -1,0 +1,99 @@
+# Spring Boot configuration
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  application:
+    name: usuario
+  profiles: dev
+# Database
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://reembolsosdb:5432/horarios_desa?createDatabaseIfNotExist=true;characterEncoding=UTF-8
+    username: hordesa
+    password: Cusquena
+    tomcat:
+     initial-size: 3
+     max-active: 3
+     max-idle: 3
+     min-idle: 3
+     max-wait: 20000
+# Spring-Admin    
+  boot:
+    admin:
+      client:
+        url:
+        -   http://elqui.tecnova.cl:9000      
+        username: admin
+        password: admin-password        
+# JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    generate-ddl: false
+---
+spring:
+  application:
+    name: usuario
+  profiles: prod
+# Database
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://dragon.tecnova.cl:5432/horarios?createDatabaseIfNotExist=true;characterEncoding=UTF-8
+    username: srvhoraprod
+    password: Kmp9085pa
+    tomcat:
+     initial-size: 3
+     max-active: 3
+     max-idle: 3
+     min-idle: 3
+     max-wait: 20000
+# Spring-Admin    
+  boot:
+    admin:
+      client:
+        url:
+        -   http://elqui.tecnova.cl:9000      
+        username: admin
+        password: admin-password        
+# JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    generate-ddl: false
+---
+# Logger configuration
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"    
+  level:
+    org.springframework: INFO
+    org.hibernate: DEBUG
+  file: logs/application-usuario.log   
+# Server configuration
+server:
+  tomcat:
+    max-threads: 3
+  port: 6006
+  sessionTimeout: 30
+  error:
+    include-stacktrace: always
+#Spring Boot Admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"    
+  endpoint:
+    health:
+      show-details: ALWAYS
